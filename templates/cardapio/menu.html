@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Cardápio — Restaurante</title>
+  <link rel="stylesheet" href="../../static/cardapio/css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">Restaurante</a>
+      <nav class="nav">
+        <a href="index.html">Início</a>
+        <a href="menu.html">Cardápio</a>
+        <a href="#contato">Contato</a>
+      </nav>
+      <button class="menu-toggle" aria-label="Abrir menu">☰</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="menu-page">
+      <h1>Nosso Cardápio</h1>
+
+      <div class="category">
+        <h2>Entradas</h2>
+        <div class="products">
+          <div class="product">
+            <img src="https://via.placeholder.com/80" alt="Bruschetta">
+            <div class="product-info">
+              <h3>Bruschetta</h3>
+              <p class="desc">Pão tostado com tomate, manjericão e azeite.</p>
+              <p class="price">R$ 18,00</p>
+            </div>
+          </div>
+          <div class="product">
+            <img src="https://via.placeholder.com/80" alt="Bolinho de bacalhau">
+            <div class="product-info">
+              <h3>Bolinho de Bacalhau</h3>
+              <p class="desc">Tradicional bolinho frito, crocante por fora.</p>
+              <p class="price">R$ 24,00</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="category">
+        <h2>Pratos Principais</h2>
+        <div class="products">
+          <div class="product">
+            <img src="https://via.placeholder.com/80" alt="Filé ao molho">
+            <div class="product-info">
+              <h3>Filé ao Molho</h3>
+              <p class="desc">Filé grelhado com molho especial da casa.</p>
+              <p class="price">R$ 45,00</p>
+            </div>
+          </div>
+          <div class="product">
+            <img src="https://via.placeholder.com/80" alt="Risoto de cogumelos">
+            <div class="product-info">
+              <h3>Risoto de Cogumelos</h3>
+              <p class="desc">Risoto cremoso com mix de cogumelos.</p>
+              <p class="price">R$ 39,00</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="category">
+        <h2>Sobremesas</h2>
+        <div class="products">
+          <div class="product">
+            <img src="https://via.placeholder.com/80" alt="Pudim">
+            <div class="product-info">
+              <h3>Pudim</h3>
+              <p class="desc">Pudim cremoso com calda de caramelo.</p>
+              <p class="price">R$ 12,00</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> Restaurante — Feito com ❤</p>
+      <p id="contato">Telefone: (00) 0000-0000 • Endereço: Rua Exemplo, 123</p>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();
+  document.addEventListener('DOMContentLoaded', function(){ const btn=document.querySelector('.menu-toggle'); const nav=document.querySelector('.nav'); btn && btn.addEventListener('click', ()=> nav.classList.toggle('open'));});</script>
+</body>
+</html>

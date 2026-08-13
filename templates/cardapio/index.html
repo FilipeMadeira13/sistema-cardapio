@@ -1,0 +1,67 @@
+{% load static %}
+
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Início — Restaurante</title>
+  <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  </head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">Restaurante</a>
+      <nav class="nav">
+        <a href="index.html">Início</a>
+        <a href="menu.html">Cardápio</a>
+        <a href="#contato">Contato</a>
+      </nav>
+      <button class="menu-toggle" aria-label="Abrir menu">☰</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-inner">
+        <h1>Sabores que encantarão você</h1>
+        <p>Cardápio artesanal com ingredientes frescos e pratos preparados com carinho.</p>
+        <a class="btn" href="menu.html">Ver Cardápio</a>
+      </div>
+    </section>
+
+    <section class="highlights">
+      <h2>Destaques</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>Entradas</h3>
+          <p>Petiscos e entradas perfeitas para começar.</p>
+        </article>
+        <article class="card">
+          <h3>Pratos principais</h3>
+          <p>Pratos preparados com técnicas cuidadosas e ingredientes locais.</p>
+        </article>
+        <article class="card">
+          <h3>Sobremesas</h3>
+          <p>Doces para fechar a refeição com chave de ouro.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="cta">
+      <p>Quer encomendar? Ligue para (00) 0000-0000 ou peça pelo nosso sistema.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> Restaurante — Feito com ❤</p>
+      <p id="contato">Telefone: (00) 0000-0000 • Endereço: Rua Exemplo, 123</p>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();
+  document.addEventListener('DOMContentLoaded', function(){ const btn=document.querySelector('.menu-toggle'); const nav=document.querySelector('.nav'); btn && btn.addEventListener('click', ()=> nav.classList.toggle('open'));});</script>
+</body>
+</html>

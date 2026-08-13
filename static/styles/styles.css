@@ -1,0 +1,48 @@
+:root{
+  --accent:#b33a3a;
+  --accent-dark:#8c2e2e;
+  --muted:#6b6b6b;
+  --bg:#fff7f5;
+  --card:#ffffff;
+  --radius:10px;
+}
+*{box-sizing:border-box}
+body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;line-height:1.5;margin:0;background:var(--bg);color:#222}
+.container{max-width:1100px;margin:0 auto;padding:1rem}
+.site-header{background:linear-gradient(90deg, #fff, #fff);border-bottom:1px solid rgba(0,0,0,.05)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:1rem}
+.brand{font-family:'Libre Baskerville', serif;font-size:1.4rem;color:var(--accent);text-decoration:none}
+.nav{display:flex;gap:1rem}
+.nav a{color:#333;text-decoration:none;font-weight:600}
+.menu-toggle{display:none;background:none;border:0;font-size:1.4rem}
+
+.hero{background:linear-gradient(90deg, rgba(179,58,58,0.06), rgba(0,0,0,0.01));padding:3rem 0;border-radius:12px;margin:1rem 0}
+.hero-inner{text-align:center}
+.hero h1{font-family:'Libre Baskerville', serif;font-size:2.2rem;margin:0 0 .5rem}
+.hero p{color:var(--muted);margin:0 0 1rem}
+.btn{background:var(--accent);color:white;padding:.7rem 1.1rem;border-radius:8px;text-decoration:none;font-weight:600}
+
+.highlights{margin:2rem 0}
+.highlights .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}
+.card{background:var(--card);padding:1rem;border-radius:var(--radius);box-shadow:0 6px 18px rgba(0,0,0,.06)}
+
+.menu-page h1{margin-top:1rem}
+.category{margin:1.5rem 0}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+.product{background:var(--card);padding:0.8rem;border-radius:10px;display:flex;gap:0.8rem;align-items:flex-start}
+.product img{width:80px;height:80px;object-fit:cover;border-radius:8px}
+.product-info h3{margin:.1rem 0}
+.product-info .desc{color:var(--muted);font-size:.95rem;margin:.2rem 0}
+.price{color:var(--accent-dark);font-weight:700}
+
+.cta{background:rgba(0,0,0,.03);padding:1rem;border-radius:8px;text-align:center;margin:2rem 0}
+
+.site-footer{border-top:1px solid rgba(0,0,0,.04);margin-top:2rem;padding:1rem 0}
+.footer-inner{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+
+@media(max-width:720px){
+  .nav{display:none}
+  .nav.open{display:flex;flex-direction:column;position:absolute;top:64px;right:16px;background:white;padding:1rem;border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,.08)}
+  .menu-toggle{display:block}
+  .header-inner{align-items:center}
+}
