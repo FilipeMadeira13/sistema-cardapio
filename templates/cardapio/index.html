@@ -12,10 +12,10 @@
 <body>
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="index.html">Restaurante</a>
+      <a class="brand" href="{% url 'index' %}">Restaurante</a>
       <nav class="nav">
-        <a href="index.html">Início</a>
-        <a href="menu.html">Cardápio</a>
+        <a href="{% url 'index' %}">Início</a>
+        <a href="{% url 'menu' %}">Cardápio</a>
         <a href="#contato">Contato</a>
       </nav>
       <button class="menu-toggle" aria-label="Abrir menu">☰</button>
@@ -27,7 +27,7 @@
       <div class="hero-inner">
         <h1>Sabores que encantarão você</h1>
         <p>Cardápio artesanal com ingredientes frescos e pratos preparados com carinho.</p>
-        <a class="btn" href="menu.html">Ver Cardápio</a>
+        <a class="btn" href="{% url 'menu' %}">Ver Cardápio</a>
       </div>
     </section>
 

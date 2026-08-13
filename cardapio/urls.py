@@ -1,5 +1,8 @@
 from django.urls import path
 
-from cardapio.views import index
+from cardapio.views import index, menu
 
-urlpatterns = [path("", index)]
+urlpatterns = [
+    path("", index, name="index"),
+    path("menu/", menu, name="menu"),
+]
