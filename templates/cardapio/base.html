@@ -26,12 +26,7 @@
     {% block content %}{% endblock %}
   </main>
 
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <p>© <span id="year"></span> Restaurante — Feito com ❤</p>
-      <p id="contato">Telefone: (00) 0000-0000 • Endereço: Rua Exemplo, 123</p>
-    </div>
-  </footer>
+  {% include 'cardapio/partials/_footer.html' %}
 
   <script>
     // Inserir ano atual

@@ -66,13 +66,6 @@
     </section>
 {% endblock %}
 
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <p>© <span id="year"></span> Restaurante — Feito com ❤</p>
-      <p id="contato">Telefone: (00) 0000-0000 • Endereço: Rua Exemplo, 123</p>
-    </div>
-  </footer>
-
   <script>document.getElementById('year').textContent = new Date().getFullYear();
   document.addEventListener('DOMContentLoaded', function(){ const btn=document.querySelector('.menu-toggle'); const nav=document.querySelector('.nav'); btn && btn.addEventListener('click', ()=> nav.classList.toggle('open'));});</script>
 </body>
