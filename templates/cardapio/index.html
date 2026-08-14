@@ -1,28 +1,7 @@
+{% extends 'cardapio/base.html' %}
 {% load static %}
 
-<!doctype html>
-<html lang="pt-br">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Início — Restaurante</title>
-  <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-  </head>
-<body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="{% url 'index' %}">Restaurante</a>
-      <nav class="nav">
-        <a href="{% url 'index' %}">Início</a>
-        <a href="{% url 'menu' %}">Cardápio</a>
-        <a href="#contato">Contato</a>
-      </nav>
-      <button class="menu-toggle" aria-label="Abrir menu">☰</button>
-    </div>
-  </header>
-
-  <main class="container">
+{% block content %}
     <section class="hero">
       <div class="hero-inner">
         <h1>Sabores que encantarão você</h1>
@@ -52,7 +31,7 @@
     <section class="cta">
       <p>Quer encomendar? Ligue para (00) 0000-0000 ou peça pelo nosso sistema.</p>
     </section>
-  </main>
+{% endblock %}
 
   <footer class="site-footer">
     <div class="container footer-inner">
