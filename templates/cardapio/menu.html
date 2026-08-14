@@ -1,19 +1,21 @@
+{% load static %}
+
 <!doctype html>
 <html lang="pt-br">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Cardápio — Restaurante</title>
-  <link rel="stylesheet" href="../../static/cardapio/css/styles.css">
+  <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="index.html">Restaurante</a>
+      <a class="brand" href="{% url 'index' %}">Restaurante</a>
       <nav class="nav">
-        <a href="index.html">Início</a>
-        <a href="menu.html">Cardápio</a>
+        <a href="{% url 'index' %}">Início</a>
+        <a href="{% url 'menu' %}">Cardápio</a>
         <a href="#contato">Contato</a>
       </nav>
       <button class="menu-toggle" aria-label="Abrir menu">☰</button>
