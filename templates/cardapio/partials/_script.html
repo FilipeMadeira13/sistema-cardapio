@@ -1,0 +1,10 @@
+<script>
+    // Inserir ano atual
+    document.getElementById('year').textContent = new Date().getFullYear();
+    // Toggle menu simples para telas pequenas
+    document.addEventListener('DOMContentLoaded', function(){
+      const btn = document.querySelector('.menu-toggle');
+      const nav = document.querySelector('.nav');
+      btn && btn.addEventListener('click', ()=> nav.classList.toggle('open'));
+    });
+</script>
