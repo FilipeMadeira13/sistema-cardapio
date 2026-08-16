@@ -26,14 +26,14 @@ principalmente pelo **Django Admin**.
 ## 3. Regras de negócio
 
 ### Categoria
-- [ ] Toda categoria tem um nome único (não pode repetir).
+- [x] Toda categoria tem um nome único (não pode repetir).
 - [ ] Uma categoria pode ser ativada/desativada (campo `ativa`), sem
       precisar excluir do banco.
 - [ ] Categoria sem produtos cadastrados não deve aparecer no cardápio
       exibido ao cliente (mas pode continuar existindo no admin).
 
 ### Produto
-- [ ] Todo produto pertence a **uma única** categoria (ForeignKey).
+- [x] Todo produto pertence a **uma única** categoria (ForeignKey).
 - [ ] Produto tem nome, descrição, preço e disponibilidade (`disponivel`).
 - [ ] Preço não pode ser negativo nem zero.
 - [ ] Produto indisponível (`disponivel=False`) não pode ser adicionado
