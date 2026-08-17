@@ -1,21 +1,13 @@
 from django.shortcuts import render
 
+from cardapio.models import Produto
+
 
 def index(request):
     return render(request, "cardapio/index.html")
 
 
 def menu(request):
-    dados = {
-        1: {
-            "nome": "Frango Assado",
-            "descricao": "O melhor frango assado da cidade.",
-            "preco": 27.00,
-        },
-        2: {
-            "nome": "Prato Feito",
-            "descricao": "Delicioso prato com opções variádas.",
-            "preco": 19.00,
-        },
-    }
-    return render(request, "cardapio/menu.html", {"pratos": dados})
+    produtos = Produto.objects.all()
+
+    return render(request, "cardapio/menu.html", {"produtos": produtos})

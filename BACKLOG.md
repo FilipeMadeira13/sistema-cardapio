@@ -38,7 +38,7 @@ principalmente pelo **Django Admin**.
 - [ ] Preço não pode ser negativo nem zero.
 - [ ] Produto indisponível (`disponivel=False`) não pode ser adicionado
       a um novo pedido, mas continua visível no admin.
-- [ ] (Opcional) Produto pode ter uma imagem.
+- [x] (Opcional) Produto pode ter uma imagem.
 
 ### Cliente
 - [ ] Nome e telefone são obrigatórios; e-mail é opcional.

@@ -5,18 +5,25 @@
     <section class="menu-page">
       <h1>Nosso Cardápio</h1>
 
-      {% for prato_id, info in pratos.items %}
+      {% if produtos %}
+      {% for produto in produtos %}
       <div class="products">
         <div class="product">
-          <img src="https://via.placeholder.com/80" alt="Bruschetta">
+          {% if produto.imagem == "" or produto.imagem == null %}
+          <img src="{% static 'assets/imagens/cardapio/not-found.png' %}" alt="Bruschetta">
+          {% else %}
+          <img src="{{ produto.imagem.url }}" alt="Bruschetta">
+          {% endif %}
           <div class="product-info">
-            <h3>{{ info.nome }}</h3>
-            <p class="desc">{{ info.descricao }}</p>
-            <p class="price">R$ {{ info.preco|floatformat:2 }}</p>
+            <h3>{{ produto.nome }}</h3>
+            <p class="desc">{{ produto.descricao }}</p>
+            <p class="price">R$ {{ produto.preco }}</p>
           </div>
         </div>
       </div>  
       {% endfor %}
+      {% else %}
+      {% endif %}
 
     </section>
 {% endblock %}
