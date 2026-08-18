@@ -12,6 +12,7 @@
         <h2 class="category">{{ categoria.nome }}</h2>
         <div class="products">
           {% for produto in categoria.produtos.all %}
+          {% if produto.disponivel %}
           <div class="product">
             {% if produto.imagem %}
             <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
@@ -24,6 +25,8 @@
               <p class="price">R$ {{ produto.preco }}</p>
             </div>
           </div>
+          {% else %}
+          {% endif %}
           {% endfor %}
         </div>
       </div>
@@ -32,7 +35,7 @@
       {% else %}
       <p>Nenhum produto cadastrado.</p>
       {% endif %}
-      
+
     </section>
 {% endblock %}
 

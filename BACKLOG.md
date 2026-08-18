@@ -29,12 +29,12 @@ principalmente pelo **Django Admin**.
 - [x] Toda categoria tem um nome único (não pode repetir).
 - [x] Uma categoria pode ser ativada/desativada (campo `ativa`), sem
       precisar excluir do banco.
-- [ ] Categoria sem produtos cadastrados não deve aparecer no cardápio
+- [x] Categoria sem produtos cadastrados não deve aparecer no cardápio
       exibido ao cliente (mas pode continuar existindo no admin).
 
 ### Produto
 - [x] Todo produto pertence a **uma única** categoria (ForeignKey).
-- [ ] Produto tem nome, descrição, preço e disponibilidade (`disponivel`).
+- [x] Produto tem nome, descrição, preço e disponibilidade (`disponivel`).
 - [ ] Preço não pode ser negativo nem zero.
 - [ ] Produto indisponível (`disponivel=False`) não pode ser adicionado
       a um novo pedido, mas continua visível no admin.

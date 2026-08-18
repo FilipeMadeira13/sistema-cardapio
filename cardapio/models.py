@@ -19,6 +19,7 @@ class Produto(models.Model):
         Categoria, on_delete=models.CASCADE, related_name="produtos"
     )
     imagem = models.ImageField(upload_to="imagens/%Y/%m/%d/", blank=True)
+    disponivel = models.BooleanField(default=True)
 
     def __str__(self) -> str:
         return self.nome

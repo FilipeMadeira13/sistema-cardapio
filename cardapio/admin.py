@@ -4,8 +4,9 @@ from cardapio.models import Categoria, Produto
 
 
 class ProdutoAdmin(admin.ModelAdmin):
-    list_display = ("nome", "preco")
+    list_display = ("nome", "preco", "disponivel")
     list_display_links = ("nome",)
+    list_editable = ("disponivel",)
     search_fields = ("nome",)
     list_filter = ("categoria",)
     list_per_page = 50
