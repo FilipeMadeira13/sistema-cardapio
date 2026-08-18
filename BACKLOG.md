@@ -35,7 +35,7 @@ principalmente pelo **Django Admin**.
 ### Produto
 - [x] Todo produto pertence a **uma única** categoria (ForeignKey).
 - [x] Produto tem nome, descrição, preço e disponibilidade (`disponivel`).
-- [ ] Preço não pode ser negativo nem zero.
+- [x] Preço não pode ser negativo nem zero.
 - [ ] Produto indisponível (`disponivel=False`) não pode ser adicionado
       a um novo pedido, mas continua visível no admin.
 - [x] (Opcional) Produto pode ter uma imagem.
