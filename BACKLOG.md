@@ -27,7 +27,7 @@ principalmente pelo **Django Admin**.
 
 ### Categoria
 - [x] Toda categoria tem um nome único (não pode repetir).
-- [ ] Uma categoria pode ser ativada/desativada (campo `ativa`), sem
+- [x] Uma categoria pode ser ativada/desativada (campo `ativa`), sem
       precisar excluir do banco.
 - [ ] Categoria sem produtos cadastrados não deve aparecer no cardápio
       exibido ao cliente (mas pode continuar existindo no admin).

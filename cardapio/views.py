@@ -8,6 +8,6 @@ def index(request):
 
 
 def menu(request):
-    categorias = Categoria.objects.prefetch_related("produtos").all()
+    categorias = Categoria.objects.filter(ativa=True).prefetch_related("produtos").all()
 
     return render(request, "cardapio/menu.html", {"categorias": categorias})

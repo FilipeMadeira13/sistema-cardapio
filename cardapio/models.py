@@ -3,6 +3,7 @@ from django.db import models
 
 class Categoria(models.Model):
     nome = models.CharField(max_length=100, unique=True, null=False, blank=False)
+    ativa = models.BooleanField(default=True)
 
     def __str__(self) -> str:
         return self.nome
