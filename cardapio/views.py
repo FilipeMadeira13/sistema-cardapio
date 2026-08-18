@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from cardapio.models import Produto
+from cardapio.models import Categoria
 
 
 def index(request):
@@ -8,6 +8,6 @@ def index(request):
 
 
 def menu(request):
-    produtos = Produto.objects.all()
+    categorias = Categoria.objects.prefetch_related("produtos").all()
 
-    return render(request, "cardapio/menu.html", {"produtos": produtos})
+    return render(request, "cardapio/menu.html", {"categorias": categorias})
