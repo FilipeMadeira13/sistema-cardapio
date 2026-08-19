@@ -6,7 +6,6 @@ class Categoria(models.Model):
     nome = models.CharField(
         max_length=100,
         unique=True,
-        null=False,
         blank=False,
     )
     ativa = models.BooleanField(default=True)
@@ -21,7 +20,6 @@ class Produto(models.Model):
     preco = models.DecimalField(
         max_digits=10,
         decimal_places=2,
-        null=False,
         blank=False,
         validators=[MinValueValidator(0)],
     )
@@ -43,3 +41,9 @@ class Produto(models.Model):
 
     def __str__(self) -> str:
         return self.nome
+
+
+class Cliente(models.Model):
+    nome = models.CharField(max_length=150, blank=False)
+    telefone = models.CharField(max_length=50, blank=False)
+    email = models.EmailField(max_length=100, blank=True)

@@ -41,7 +41,7 @@ principalmente pelo **Django Admin**.
 - [x] (Opcional) Produto pode ter uma imagem.
 
 ### Cliente
-- [ ] Nome e telefone são obrigatórios; e-mail é opcional.
+- [x] Nome e telefone são obrigatórios; e-mail é opcional.
 - [ ] Telefone deve ser único por cliente (evitar cadastros duplicados).
 
 ### Pedido
