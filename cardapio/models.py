@@ -45,5 +45,5 @@ class Produto(models.Model):
 
 class Cliente(models.Model):
     nome = models.CharField(max_length=150, blank=False)
-    telefone = models.CharField(max_length=50, blank=False)
+    telefone = models.CharField(max_length=50, blank=False, unique=True)
     email = models.EmailField(max_length=100, blank=True)

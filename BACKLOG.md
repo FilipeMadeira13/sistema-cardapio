@@ -42,7 +42,7 @@ principalmente pelo **Django Admin**.
 
 ### Cliente
 - [x] Nome e telefone são obrigatórios; e-mail é opcional.
-- [ ] Telefone deve ser único por cliente (evitar cadastros duplicados).
+- [x] Telefone deve ser único por cliente (evitar cadastros duplicados).
 
 ### Pedido
 - [ ] Todo pedido pertence a um único cliente.

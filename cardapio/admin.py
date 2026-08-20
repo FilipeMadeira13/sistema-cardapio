@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from cardapio.models import Categoria, Produto
+from cardapio.models import Categoria, Cliente, Produto
 
 
 class ProdutoAdmin(admin.ModelAdmin):
@@ -20,5 +20,13 @@ class CategoriaAdmin(admin.ModelAdmin):
     list_per_page = 10
 
 
+class ClienteAdmin(admin.ModelAdmin):
+    list_display = ("nome", "telefone", "email")
+    list_display_links = ("nome",)
+    search_fields = ("nome",)
+    list_per_page = 50
+
+
 admin.site.register(Produto, ProdutoAdmin)
 admin.site.register(Categoria, CategoriaAdmin)
+admin.site.register(Cliente, ClienteAdmin)
