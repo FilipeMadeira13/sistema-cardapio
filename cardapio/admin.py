@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from cardapio.models import Categoria, Cliente, Pedido, Produto
+from cardapio.models import Categoria, Cliente, ItemPedido, Pedido, Produto
 
 
 class ProdutoAdmin(admin.ModelAdmin):
@@ -27,8 +27,16 @@ class ClienteAdmin(admin.ModelAdmin):
     list_per_page = 50
 
 
+class ItemPedidoInline(admin.TabularInline):
+    model = ItemPedido
+    extra = 1
+    min_num = 1
+    validate_min = True
+
+
 class PedidoAdmin(admin.ModelAdmin):
-    list_display = ("id", "get_cliente_nome")
+    inlines = [ItemPedidoInline]
+    list_display = ("id", "get_cliente_nome", "status")
     search_fields = ("cliente__nome",)
     list_per_page = 50
 

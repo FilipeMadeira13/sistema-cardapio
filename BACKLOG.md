@@ -48,7 +48,7 @@ principalmente pelo **Django Admin**.
 - [x] Todo pedido pertence a um único cliente.
 - [x] Pedido tem status: `Recebido` → `Em preparo` → `Pronto` →
       `Entregue` (ou `Cancelado` em qualquer etapa antes de `Entregue`).
-- [ ] Um pedido precisa ter **pelo menos 1 item** para ser considerado
+- [x] Um pedido precisa ter **pelo menos 1 item** para ser considerado
       válido — não deve existir pedido vazio.
 - [ ] O valor total do pedido é calculado automaticamente a partir da
       soma dos itens (quantidade × preço do produto no momento do

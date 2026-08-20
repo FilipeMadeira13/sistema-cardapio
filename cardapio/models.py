@@ -1,3 +1,5 @@
+from typing import Any
+
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.db import models
@@ -88,3 +90,28 @@ class Pedido(models.Model):
                     raise ValidationError(
                         f"Não é possível mudar de '{status_atual}' para '{self.status}'."
                     )
+
+
+class ItemPedido(models.Model):
+    pedido = models.ForeignKey(
+        Pedido,
+        on_delete=models.CASCADE,
+        related_name="itens",
+    )
+    produto = models.ForeignKey(
+        Produto,
+        on_delete=models.PROTECT,
+        related_name="itens_pedido",
+    )
+    quantidade = models.PositiveIntegerField(default=1)
+    preco_unitario = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self) -> str:
+        return f"{self.quantidade}x {self.produto.nome}"
+
+    def delete(self, *args, **kwargs):
+        if self.pedido.itens.count() <= 1:
+            raise ValidationError(
+                "Não é possível remover o último item — o pedido ficaria vazio."
+            )
+        super().delete(*args, **kwargs)
