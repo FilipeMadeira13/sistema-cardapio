@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.db import models
 
@@ -53,8 +54,37 @@ class Cliente(models.Model):
 
 
 class Pedido(models.Model):
+    class Status(models.TextChoices):
+        RECEBIDO = "RECEBIDO", "Recebido"
+        EM_PREPARO = "EM_PREPARO", "Em preparo"
+        PRONTO = "PRONTO", "Pronto"
+        ENTREGUE = "ENTREGUE", "Entregue"
+        CANCELADO = "CANCELADO", "Cancelado"
+
+    TRANSACOES_VALIDAS = {
+        Status.RECEBIDO: [Status.EM_PREPARO, Status.CANCELADO],
+        Status.EM_PREPARO: [Status.PRONTO, Status.CANCELADO],
+        Status.PRONTO: [Status.ENTREGUE, Status.CANCELADO],
+        Status.ENTREGUE: [],
+        Status.CANCELADO: [],
+    }
+
     cliente = models.ForeignKey(
         Cliente,
         on_delete=models.PROTECT,
         related_name="pedidos",
     )
+    status = models.CharField(
+        max_length=20,
+        choices=Status.choices,
+        default=Status.RECEBIDO,
+    )
+
+    def clean(self):
+        if self.pk:
+            status_atual = self.Status(Pedido.objects.get(pk=self.pk).status)
+            if status_atual != self.status:
+                if self.status not in self.TRANSACOES_VALIDAS[status_atual]:
+                    raise ValidationError(
+                        f"Não é possível mudar de '{status_atual}' para '{self.status}'."
+                    )
