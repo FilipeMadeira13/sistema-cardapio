@@ -45,7 +45,7 @@ principalmente pelo **Django Admin**.
 - [x] Telefone deve ser único por cliente (evitar cadastros duplicados).
 
 ### Pedido
-- [ ] Todo pedido pertence a um único cliente.
+- [x] Todo pedido pertence a um único cliente.
 - [ ] Pedido tem status: `Recebido` → `Em preparo` → `Pronto` →
       `Entregue` (ou `Cancelado` em qualquer etapa antes de `Entregue`).
 - [ ] Um pedido precisa ter **pelo menos 1 item** para ser considerado

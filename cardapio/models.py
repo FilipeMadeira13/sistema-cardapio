@@ -47,3 +47,14 @@ class Cliente(models.Model):
     nome = models.CharField(max_length=150, blank=False)
     telefone = models.CharField(max_length=50, blank=False, unique=True)
     email = models.EmailField(max_length=100, blank=True)
+
+    def __str__(self) -> str:
+        return self.nome
+
+
+class Pedido(models.Model):
+    cliente = models.ForeignKey(
+        Cliente,
+        on_delete=models.PROTECT,
+        related_name="pedidos",
+    )
