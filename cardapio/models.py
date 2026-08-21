@@ -1,5 +1,6 @@
 from typing import Any
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.db import models
@@ -47,6 +48,13 @@ class Produto(models.Model):
 
 
 class Cliente(models.Model):
+    usuario = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="cliente",
+        null=True,
+        blank=True,
+    )
     nome = models.CharField(max_length=150, blank=False)
     telefone = models.CharField(max_length=50, blank=False, unique=True)
     email = models.EmailField(max_length=100, blank=True)
