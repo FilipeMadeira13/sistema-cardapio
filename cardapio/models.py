@@ -25,7 +25,7 @@ class Produto(models.Model):
         max_digits=10,
         decimal_places=2,
         blank=False,
-        validators=[MinValueValidator(0)],
+        validators=[MinValueValidator(0.01)],
     )
     categoria = models.ForeignKey(
         Categoria,
@@ -38,8 +38,8 @@ class Produto(models.Model):
     class Meta:
         constraints = [
             models.CheckConstraint(
-                condition=models.Q(preco__gte=0),
-                name="preco_nao_negativo",
+                condition=models.Q(preco__gt=0),
+                name="preco_positivo",
             )
         ]
 
@@ -99,6 +99,10 @@ class Pedido(models.Model):
                         f"Não é possível mudar de '{status_atual}' para '{self.status}'."
                     )
 
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super().save(*args, **kwargs)
+
 
 class ItemPedido(models.Model):
     pedido = models.ForeignKey(
@@ -111,8 +115,19 @@ class ItemPedido(models.Model):
         on_delete=models.PROTECT,
         related_name="itens_pedido",
     )
-    quantidade = models.PositiveIntegerField(default=1)
+    quantidade = models.PositiveIntegerField(
+        default=1,
+        validators=[MinValueValidator(1)],
+    )
     preco_unitario = models.DecimalField(max_digits=10, decimal_places=2)
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(
+                condition=models.Q(quantidade__gte=1),
+                name="quantidade_positiva",
+            )
+        ]
 
     def __str__(self) -> str:
         return f"{self.quantidade}x {self.produto.nome}"

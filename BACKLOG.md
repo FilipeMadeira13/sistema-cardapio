@@ -25,6 +25,10 @@ principalmente pelo **Django Admin**.
 
 ## 3. Regras de negócio
 
+### Bugs a corrigir
+- [ ] Corrigir mensagem de confirmação de pedido no admin.
+- [ ] Ao clicar em adicionar ao carrinho nos produtos no cardápio ele vai direto para a página do carrinho
+
 ### Categoria
 - [x] Toda categoria tem um nome único (não pode repetir).
 - [x] Uma categoria pode ser ativada/desativada (campo `ativa`), sem

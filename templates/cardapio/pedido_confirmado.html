@@ -1,0 +1,22 @@
+{% extends 'cardapio/base.html' %}
+
+{% block content %}
+    <section class="menu-page">
+      <h1>Pedido Confirmado!</h1>
+
+      <div class="card">
+        <p>Pedido <strong>#{{ pedido.id }}</strong> recebido com sucesso.</p>
+        <p><strong>Cliente:</strong> {{ pedido.cliente.nome }}</p>
+        <p><strong>Status:</strong> {{ pedido.get_status_display }}</p>
+
+        <h2>Itens</h2>
+        <ul>
+          {% for item in pedido.itens.all %}
+          <li>{{ item.quantidade }}x {{ item.produto.nome }} — R$ {{ item.preco_unitario }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <a class="btn" href="{% url 'menu' %}">Voltar ao cardápio</a>
+    </section>
+{% endblock %}

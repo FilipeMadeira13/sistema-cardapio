@@ -1,0 +1,44 @@
+{% extends 'cardapio/base.html' %}
+{% load static %}
+
+{% block content %}
+    <section class="menu-page">
+      <h1>Seu Carrinho</h1>
+
+      {% if erro %}
+      <p class="erro">{{ erro }}</p>
+      {% endif %}
+
+      {% if itens %}
+      <div class="products">
+        {% for item in itens %}
+        <div class="product">
+          {% if item.produto.imagem %}
+          <img src="{{ item.produto.imagem.url }}" alt="{{ item.produto.nome }}">
+          {% else %}
+          <img src="{% static 'assets/imagens/cardapio/not-found.png' %}" alt="{{ item.produto.nome }}">
+          {% endif %}
+          <div class="product-info">
+            <h3>{{ item.produto.nome }}</h3>
+            <p class="desc">Quantidade: {{ item.quantidade }}</p>
+            <p class="price">R$ {{ item.subtotal }}</p>
+            <form method="post" action="{% url 'remover_do_carrinho' item.produto.id %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-secondary">Remover</button>
+            </form>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="cart-summary">
+        <p class="total">Total: R$ {{ total }}</p>
+        <a class="btn" href="{% url 'checkout' %}">Finalizar pedido</a>
+      </div>
+      {% else %}
+      <p>Seu carrinho está vazio.</p>
+      <a class="btn" href="{% url 'menu' %}">Ver cardápio</a>
+      {% endif %}
+
+    </section>
+{% endblock %}

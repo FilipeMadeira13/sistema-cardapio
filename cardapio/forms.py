@@ -3,6 +3,7 @@ from typing import Any
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.db import transaction
 
 from cardapio.models import Cliente
 
@@ -16,6 +17,13 @@ class CadastroForms(UserCreationForm):
         model = User
         fields = ["username", "password1", "password2"]
 
+    def clean_telefone(self):
+        telefone = self.cleaned_data["telefone"]
+        if Cliente.objects.filter(telefone=telefone).exists():
+            raise forms.ValidationError("Este telefone já está cadastrado.")
+        return telefone
+
+    @transaction.atomic
     def save(self, commit=True):
         user = super().save(commit=False)
 

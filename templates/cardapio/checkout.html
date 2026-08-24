@@ -1,0 +1,44 @@
+{% extends 'cardapio/base.html' %}
+{% load static %}
+
+{% block content %}
+    <section class="menu-page">
+      <h1>Finalizar Pedido</h1>
+
+      {% if erro %}
+      <p class="erro">{{ erro }}</p>
+      {% endif %}
+
+      <div class="checkout-resumo">
+        <h2>Resumo do pedido</h2>
+        <div class="products">
+          {% for item in itens %}
+          <div class="product">
+            {% if item.produto.imagem %}
+            <img src="{{ item.produto.imagem.url }}" alt="{{ item.produto.nome }}">
+            {% else %}
+            <img src="{% static 'assets/imagens/cardapio/not-found.png' %}" alt="{{ item.produto.nome }}">
+            {% endif %}
+            <div class="product-info">
+              <h3>{{ item.produto.nome }}</h3>
+              <p class="desc">Quantidade: {{ item.quantidade }}</p>
+              <p class="price">R$ {{ item.subtotal }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <p class="total">Total: R$ {{ total }}</p>
+      </div>
+
+      <div class="checkout-cliente">
+        <h2>Seus dados</h2>
+        <p><strong>Nome:</strong> {{ request.user.cliente.nome }}</p>
+        <p><strong>Telefone:</strong> {{ request.user.cliente.telefone }}</p>
+      </div>
+
+      <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn">Confirmar pedido</button>
+      </form>
+    </section>
+{% endblock %}

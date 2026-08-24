@@ -1,0 +1,20 @@
+{% extends 'cardapio/base.html' %}
+
+{% block content %}
+    <section class="menu-page">
+      <h1>Entrar</h1>
+
+      {% if form.errors %}
+      <p class="erro">Usuário ou senha inválidos.</p>
+      {% endif %}
+
+      <form method="post" class="auth-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Entrar</button>
+        <input type="hidden" name="next" value="{{ next }}">
+      </form>
+
+      <p>Ainda não tem conta? <a href="{% url 'cadastro' %}">Cadastre-se</a></p>
+    </section>
+{% endblock %}

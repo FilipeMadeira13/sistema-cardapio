@@ -1,0 +1,15 @@
+{% extends 'cardapio/base.html' %}
+
+{% block content %}
+    <section class="menu-page">
+      <h1>Criar Conta</h1>
+
+      <form method="post" class="auth-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Cadastrar</button>
+      </form>
+
+      <p>Já tem conta? <a href="{% url 'login' %}">Entrar</a></p>
+    </section>
+{% endblock %}

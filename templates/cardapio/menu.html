@@ -7,12 +7,10 @@
 
       {% if categorias %}
       {% for categoria in categorias %}
-      {% if categoria.produtos.all %}
       <div class="category-section">
         <h2 class="category">{{ categoria.nome }}</h2>
         <div class="products">
           {% for produto in categoria.produtos.all %}
-          {% if produto.disponivel %}
           <div class="product">
             {% if produto.imagem %}
             <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
@@ -23,14 +21,15 @@
               <h3>{{ produto.nome }}</h3>
               <p class="desc">{{ produto.descricao }}</p>
               <p class="price">R$ {{ produto.preco }}</p>
+              <form method="post" action="{% url 'adicionar_ao_carrinho' produto.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn">Adicionar ao carrinho</button>
+              </form>
             </div>
           </div>
-          {% else %}
-          {% endif %}
           {% endfor %}
         </div>
       </div>
-      {% endif %}
       {% endfor %}
       {% else %}
       <p>Nenhum produto cadastrado.</p>
@@ -38,6 +37,3 @@
 
     </section>
 {% endblock %}
-
-</body>
-</html>
