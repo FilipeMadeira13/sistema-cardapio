@@ -148,10 +148,10 @@ class FluxoCarrinhoCheckoutTest(TestCase):
         self.assertTrue(response.wsgi_request.user.is_authenticated)
 
     def test_adicionar_produto_ao_carrinho_guarda_na_sessao(self):
-        self.client.post(reverse("adicionar_ao_carrinho", args=[self.produto.id]))
+        self.client.post(reverse("adicionar_ao_carrinho", args=[self.produto.pk]))
         session = self.client.session
         self.assertIn(str(self.produto.id), session.get("carrinho", {}))
-        self.assertEqual(session["carrinho"][str(self.produto.id)], 1)
+        self.assertEqual(session["carrinho"][str(self.produto.pk)], 1)
 
     def test_checkout_exige_login(self):
         response = self.client.get(reverse("checkout"))
@@ -176,7 +176,7 @@ class FluxoCarrinhoCheckoutTest(TestCase):
         self.client.login(username="maria", password="SenhaForte123!")
 
         # adiciona item ao carrinho
-        self.client.post(reverse("adicionar_ao_carrinho", args=[self.produto.id]))
+        self.client.post(reverse("adicionar_ao_carrinho", args=[self.produto.pk]))
 
         # confirma o pedido
         response = self.client.post(reverse("checkout"))
