@@ -18,10 +18,7 @@
         <a href="{% url 'menu' %}">Cardápio</a>
         <a href="{% url 'ver_carrinho' %}">Carrinho</a>
         {% if user.is_authenticated %}
-        <form method="post" action="{% url 'logout' %}">
-          {% csrf_token %}
-          <button type="submit" class="nav-link">Sair</button>
-        </form>
+        <a href="{% url 'logout' %}">Sair</a>
         {% else %}
         <a href="{% url 'login' %}">Entrar</a>
         {% endif %}
@@ -32,6 +29,13 @@
   </header>
 
   <main class="container" id="content">
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li class="message message-{{ message.tags }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
     {% block content %}{% endblock %}
   </main>
 

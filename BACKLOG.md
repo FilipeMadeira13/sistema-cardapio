@@ -26,7 +26,7 @@ principalmente pelo **Django Admin**.
 ## 3. Regras de negócio
 
 ### Bugs a corrigir
-- [ ] Ao clicar em adicionar ao carrinho nos produtos no cardápio ele vai direto para a página do carrinho
+- [ ] Aplicar o CSS a message quando o produto é adicionado ao carrinho
 
 ### Categoria
 - [x] Toda categoria tem um nome único (não pode repetir).

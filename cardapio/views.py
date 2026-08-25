@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
@@ -32,9 +33,10 @@ def menu(request):
 def adicionar_ao_carrinho(request, produto_id):
     if request.method != "POST":
         return redirect("menu")
-    get_object_or_404(Produto, id=produto_id, disponivel=True)
+    produto = get_object_or_404(Produto, id=produto_id, disponivel=True)
     carrinho_service.adicionar_item(request, produto_id)
-    return redirect("ver_carrinho")
+    messages.success(request, f'"{produto.nome}" adicionado ao carrinho.')
+    return redirect("menu")
 
 
 def remover_do_carrinho(request, produto_id):
