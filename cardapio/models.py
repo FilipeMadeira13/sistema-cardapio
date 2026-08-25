@@ -103,6 +103,9 @@ class Pedido(models.Model):
         self.full_clean()
         return super().save(*args, **kwargs)
 
+    def __str__(self) -> str:
+        return f"Pedido #{self.pk} — {self.cliente.nome}"
+
 
 class ItemPedido(models.Model):
     pedido = models.ForeignKey(
