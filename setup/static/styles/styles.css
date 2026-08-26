@@ -37,6 +37,12 @@ body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica
 
 .cta{background:rgba(0,0,0,.03);padding:1rem;border-radius:8px;text-align:center;margin:2rem 0}
 
+.messages{list-style:none;padding:0;margin:1rem 0}
+.message{padding:.8rem 1rem;border-radius:8px;margin-bottom:.5rem;font-weight:600}
+.message-success{background:rgba(60,150,90,.1);color:#2d7a4f;border:1px solid rgba(60,150,90,.25)}
+.message-error{background:rgba(179,58,58,.08);color:var(--accent-dark);border:1px solid rgba(179,58,58,.25)}
+.message-info{background:rgba(70,110,180,.08);color:#3a5a9a;border:1px solid rgba(70,110,180,.2)}
+
 .erro{background:rgba(179,58,58,.08);color:var(--accent-dark);border:1px solid rgba(179,58,58,.25);padding:.8rem 1rem;border-radius:8px;margin:1rem 0;font-weight:600}
 
 .btn-secondary{background:transparent;color:var(--accent);border:1px solid var(--accent);padding:.5rem .9rem;border-radius:8px;text-decoration:none;font-weight:600;font-size:.9rem;display:inline-block;margin-top:.4rem}
