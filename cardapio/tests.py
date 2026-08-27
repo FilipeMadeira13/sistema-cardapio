@@ -1,8 +1,14 @@
+from typing import Any, cast
+
 from django.contrib.auth.models import User
+from django.contrib.sessions.middleware import SessionMiddleware
 from django.core.exceptions import ValidationError
-from django.test import TestCase
+from django.http import HttpResponse
+from django.test import RequestFactory, TestCase
 from django.urls import reverse
 
+from . import carrinho
+from .forms import CadastroForms
 from .models import Categoria, Cliente, ItemPedido, Pedido, Produto
 from .services import criar_pedido
 
@@ -190,7 +196,169 @@ class FluxoCarrinhoCheckoutTest(TestCase):
         session = self.client.session
         self.assertEqual(session.get("carrinho", {}), {})
 
-    def test_checkout_exige_login(self):
+    def test_checkout_exige_login_com_url_de_login(self):
         response = self.client.get(reverse("checkout"))
         self.assertEqual(response.status_code, 302)
         self.assertTrue(response.url.startswith(reverse("login")))
+
+
+class RegrasDeModeloTest(TestCase):
+    def setUp(self):
+        self.categoria = Categoria.objects.create(nome="Pratos")
+        self.produto = Produto.objects.create(
+            nome="Feijoada",
+            descricao="Feijoada completa",
+            preco="35.00",
+            categoria=self.categoria,
+        )
+        self.cliente = Cliente.objects.create(
+            nome="Teste",
+            telefone="11999990000",
+        )
+
+    def test_preco_deve_ser_positivo(self):
+        produto = Produto(
+            nome="Produto inválido",
+            descricao="Descrição",
+            preco="0.00",
+            categoria=self.categoria,
+        )
+        with self.assertRaises(ValidationError):
+            produto.full_clean()
+
+    def test_quantidade_de_item_deve_ser_maior_que_zero(self):
+        pedido = Pedido.objects.create(cliente=self.cliente)
+        item = ItemPedido(
+            pedido=pedido,
+            produto=self.produto,
+            quantidade=0,
+            preco_unitario=self.produto.preco,
+        )
+        with self.assertRaises(ValidationError):
+            item.full_clean()
+
+    def test_preco_unitario_fica_congelado_no_item(self):
+        pedido = criar_pedido(
+            cliente_dados={},
+            cliente=self.cliente,
+            itens_carrinho=[{"produto": self.produto, "quantidade": 1}],
+        )
+        item = pedido.itens.get()
+        self.produto.preco = "40.00"
+        self.produto.save()
+
+        item.refresh_from_db()
+        self.assertEqual(item.preco_unitario, 35)
+
+    def test_pedido_cancelado_nao_pode_mudar_de_status(self):
+        pedido = Pedido.objects.create(
+            cliente=self.cliente,
+            status=Pedido.Status.CANCELADO,
+        )
+        pedido.status = Pedido.Status.EM_PREPARO
+        with self.assertRaises(ValidationError):
+            pedido.full_clean()
+
+
+class CriarPedidoErrosTest(TestCase):
+    def setUp(self):
+        categoria = Categoria.objects.create(nome="Pratos")
+        self.produto = Produto.objects.create(
+            nome="Feijoada",
+            descricao="Feijoada completa",
+            preco="35.00",
+            categoria=categoria,
+        )
+
+    def test_nao_cria_pedido_com_produto_indisponivel(self):
+        self.produto.disponivel = False
+        self.produto.save()
+
+        with self.assertRaises(ValidationError):
+            criar_pedido(
+                cliente_dados={"nome": "Teste", "telefone": "11999990001"},
+                itens_carrinho=[{"produto": self.produto, "quantidade": 1}],
+            )
+
+    def test_nao_cria_pedido_com_quantidade_invalida(self):
+        with self.assertRaises(ValidationError):
+            criar_pedido(
+                cliente_dados={"nome": "Teste", "telefone": "11999990002"},
+                itens_carrinho=[{"produto": self.produto, "quantidade": 0}],
+            )
+
+        self.assertEqual(Pedido.objects.count(), 0)
+
+
+class CarrinhoServiceTest(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.request = self.factory.get(reverse("ver_carrinho"))
+        middleware = SessionMiddleware(lambda request: HttpResponse())
+        middleware.process_request(self.request)
+        self.request.session.save()
+        categoria = Categoria.objects.create(nome="Bebidas")
+        self.produto = Produto.objects.create(
+            nome="Suco",
+            descricao="Suco natural",
+            preco="8.00",
+            categoria=categoria,
+        )
+
+    def test_adicionar_item_soma_quantidades(self):
+        carrinho.adicionar_item(self.request, self.produto.pk, quantidade=2)
+        carrinho.adicionar_item(self.request, self.produto.pk, quantidade=3)
+
+        self.assertEqual(carrinho.get_carrinho(self.request)[str(self.produto.pk)], 5)
+
+    def test_adicionar_item_rejeita_quantidade_invalida(self):
+        with self.assertRaises(ValueError):
+            carrinho.adicionar_item(self.request, self.produto.pk, quantidade=0)
+        with self.assertRaises(ValueError):
+            carrinho.adicionar_item(
+                self.request,
+                self.produto.pk,
+                quantidade=cast(Any, 1.5),
+            )
+
+    def test_itens_do_carrinho_calcula_total_e_remove_quantidade_invalida(self):
+        self.request.session["carrinho"] = {
+            str(self.produto.pk): 2,
+        }
+        itens, total = carrinho.itens_do_carrinho(self.request)
+
+        self.assertEqual(len(itens), 1)
+        self.assertEqual(itens[0]["subtotal"], 16)
+        self.assertEqual(total, 16)
+
+        self.request.session["carrinho"][str(self.produto.pk)] = 0
+        itens, total = carrinho.itens_do_carrinho(self.request)
+        self.assertEqual((itens, total), ([], 0))
+        self.assertNotIn(str(self.produto.pk), self.request.session["carrinho"])
+
+    def test_produto_indisponivel_nao_aparece_no_carrinho(self):
+        self.request.session["carrinho"] = {str(self.produto.pk): 1}
+        self.produto.disponivel = False
+        self.produto.save()
+
+        itens, total = carrinho.itens_do_carrinho(self.request)
+
+        self.assertEqual((itens, total), ([], 0))
+
+
+class CadastroFormsTest(TestCase):
+    def test_telefone_nao_pode_ser_duplicado(self):
+        Cliente.objects.create(nome="Cliente existente", telefone="11999990009")
+        form = CadastroForms(
+            data={
+                "username": "novo",
+                "password1": "SenhaForte123!",
+                "password2": "SenhaForte123!",
+                "nome": "Novo cliente",
+                "telefone": "11999990009",
+                "email": "novo@example.com",
+            }
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertIn("telefone", form.errors)
