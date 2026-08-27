@@ -116,13 +116,17 @@ pip install -r requirements.txt
 
 ### 4. Configure as variáveis de ambiente
 
-Crie um arquivo `.env` na raiz do projeto com valores como:
+Copie `.env.example` para `.env` e substitua `SECRET_KEY` por uma chave aleatória
+que não seja compartilhada nem versionada:
 
 ```env
-SECRET_KEY=sua-chave-secreta-aqui
+SECRET_KEY=gere-uma-chave-secreta-diferente-para-cada-ambiente
 DEBUG=True
 ALLOWED_HOSTS=localhost,127.0.0.1
 ```
+
+O arquivo `.env` é ignorado pelo Git. Se uma chave for exposta, revogue-a e gere
+uma nova imediatamente.
 
 ### 5. Execute as migrações
 
