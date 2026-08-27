@@ -140,4 +140,4 @@ class ItemPedido(models.Model):
             raise ValidationError(
                 "Não é possível remover o último item — o pedido ficaria vazio."
             )
-        super().delete(*args, **kwargs)
+        return super().delete(*args, **kwargs)
