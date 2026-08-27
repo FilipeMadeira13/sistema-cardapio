@@ -189,3 +189,8 @@ class FluxoCarrinhoCheckoutTest(TestCase):
         # carrinho deve ter sido limpo após o checkout
         session = self.client.session
         self.assertEqual(session.get("carrinho", {}), {})
+
+    def test_checkout_exige_login(self):
+        response = self.client.get(reverse("checkout"))
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.url.startswith(reverse("login")))

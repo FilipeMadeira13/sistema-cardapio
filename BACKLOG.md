@@ -26,31 +26,12 @@ principalmente pelo **Django Admin**.
 ## 3. Regras de negócio
 
 
-### Categoria
-- [x] Toda categoria tem um nome único (não pode repetir).
-- [x] Uma categoria pode ser ativada/desativada (campo `ativa`), sem
-      precisar excluir do banco.
-- [x] Categoria sem produtos cadastrados não deve aparecer no cardápio
-      exibido ao cliente (mas pode continuar existindo no admin).
-
 ### Produto
-- [x] Todo produto pertence a **uma única** categoria (ForeignKey).
-- [x] Produto tem nome, descrição, preço e disponibilidade (`disponivel`).
-- [x] Preço não pode ser negativo nem zero.
 - [ ] Produto indisponível (`disponivel=False`) não pode ser adicionado
       a um novo pedido, mas continua visível no admin.
-- [x] (Opcional) Produto pode ter uma imagem.
 
-### Cliente
-- [x] Nome e telefone são obrigatórios; e-mail é opcional.
-- [x] Telefone deve ser único por cliente (evitar cadastros duplicados).
 
 ### Pedido
-- [x] Todo pedido pertence a um único cliente.
-- [x] Pedido tem status: `Recebido` → `Em preparo` → `Pronto` →
-      `Entregue` (ou `Cancelado` em qualquer etapa antes de `Entregue`).
-- [x] Um pedido precisa ter **pelo menos 1 item** para ser considerado
-      válido — não deve existir pedido vazio.
 - [ ] O valor total do pedido é calculado automaticamente a partir da
       soma dos itens (quantidade × preço do produto no momento do
       pedido), nunca digitado manualmente.
