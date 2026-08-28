@@ -6,10 +6,6 @@ from cardapio.models import Cliente, ItemPedido, Pedido, Produto
 
 @transaction.atomic
 def criar_pedido(cliente_dados, itens_carrinho, cliente=None):
-    """
-    cliente_dados: dict com nome, telefone, email
-    itens_carrinho: lista de dicts, ex: [{"produto": produto_obj, "quantidade": 2}, ...]
-    """
     if not itens_carrinho:
         raise ValidationError("Não é possível criar um pedido sem itens.")
 

@@ -6,11 +6,14 @@ from django.core.exceptions import ValidationError
 from django.http import HttpResponse
 from django.test import RequestFactory, TestCase
 from django.urls import reverse
+from django.utils.crypto import get_random_string
 
 from . import carrinho
 from .forms import CadastroForms
 from .models import Categoria, Cliente, ItemPedido, Pedido, Produto
 from .services import criar_pedido
+
+TEST_PASSWORD = get_random_string(32)
 
 
 class PedidoTest(TestCase):
@@ -139,8 +142,8 @@ class FluxoCarrinhoCheckoutTest(TestCase):
             reverse("cadastro"),
             {
                 "username": "joaosilva",
-                "password1": "SenhaForte123!",
-                "password2": "SenhaForte123!",
+                "password1": TEST_PASSWORD,
+                "password2": TEST_PASSWORD,
                 "nome": "João Silva",
                 "telefone": "11988887777",
                 "email": "joao@example.com",
@@ -165,21 +168,21 @@ class FluxoCarrinhoCheckoutTest(TestCase):
         self.assertIn("/login/", response.url)
 
     def test_checkout_com_carrinho_vazio_mostra_erro(self):
-        User.objects.create_user(username="teste", password="SenhaForte123!")
+        User.objects.create_user(username="teste", password=TEST_PASSWORD)
         Cliente.objects.create(
             usuario=User.objects.get(username="teste"),
             nome="Teste",
             telefone="11999998888",
         )
-        self.client.login(username="teste", password="SenhaForte123!")
+        self.client.login(username="teste", password=TEST_PASSWORD)
 
         response = self.client.get(reverse("checkout"))
         self.assertContains(response, "vazio")
 
     def test_fluxo_completo_de_compra(self):
-        user = User.objects.create_user(username="maria", password="SenhaForte123!")
+        user = User.objects.create_user(username="maria", password=TEST_PASSWORD)
         Cliente.objects.create(usuario=user, nome="Maria", telefone="11977776666")
-        self.client.login(username="maria", password="SenhaForte123!")
+        self.client.login(username="maria", password=TEST_PASSWORD)
 
         # adiciona item ao carrinho
         self.client.post(reverse("adicionar_ao_carrinho", args=[self.produto.pk]))
@@ -352,8 +355,8 @@ class CadastroFormsTest(TestCase):
         form = CadastroForms(
             data={
                 "username": "novo",
-                "password1": "SenhaForte123!",
-                "password2": "SenhaForte123!",
+                "password1": TEST_PASSWORD,
+                "password2": TEST_PASSWORD,
                 "nome": "Novo cliente",
                 "telefone": "11999990009",
                 "email": "novo@example.com",

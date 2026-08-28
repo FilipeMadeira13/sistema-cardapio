@@ -135,6 +135,16 @@ class ItemPedido(models.Model):
     def __str__(self) -> str:
         return f"{self.quantidade}x {self.produto.nome}"
 
+    def clean(self):
+        if self.pk is None and self.produto and not self.produto.disponivel:
+            raise ValidationError(
+                {"produto": f'"{self.produto.nome}" está indisponível no momento e não pode ser adicionado a um pedido.'}
+            )
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
     def delete(self, *args, **kwargs):
         if self.pedido.itens.count() <= 1:
             raise ValidationError(
