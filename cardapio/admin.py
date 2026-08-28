@@ -8,7 +8,7 @@ class ProdutoAdmin(admin.ModelAdmin):
     list_display_links = ("nome",)
     list_editable = ("disponivel",)
     search_fields = ("nome",)
-    list_filter = ("categoria",)
+    list_filter = ("categoria", "disponivel")
     list_per_page = 50
 
 

@@ -25,9 +25,7 @@ principalmente pelo **Django Admin**.
 
 ## 3. Regras de negócio
 
-### Produto
-- [ ] Produto indisponível (`disponivel=False`) não pode ser adicionado
-      a um novo pedido, mas continua visível no admin.
+[] Adicionar a opção de ver o carrinho na página de produtos.
 
 
 ### Pedido

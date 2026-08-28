@@ -204,6 +204,25 @@ class FluxoCarrinhoCheckoutTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertTrue(response.url.startswith(reverse("login")))
 
+    def test_checkout_falha_se_produto_ficou_indisponivel_apos_adicionar_ao_carrinho(
+        self,
+    ):
+        # produto começa disponível e é adicionado normalmente ao carrinho
+        user = User.objects.create_user(username="carlos", password=TEST_PASSWORD)
+        Cliente.objects.create(usuario=user, nome="Carlos", telefone="11955554444")
+        self.client.login(username="carlos", password=TEST_PASSWORD)
+
+        self.client.post(reverse("adicionar_ao_carrinho", args=[self.produto.pk]))
+
+        # produto fica indisponível DEPOIS de já estar no carrinho
+        self.produto.disponivel = False
+        self.produto.save()
+
+        response = self.client.post(reverse("checkout"))
+        # não deve criar o pedido nem redirecionar como sucesso
+        self.assertNotEqual(response.status_code, 302)
+        self.assertEqual(Pedido.objects.count(), 0)
+
 
 class RegrasDeModeloTest(TestCase):
     def setUp(self):
@@ -292,6 +311,15 @@ class CriarPedidoErrosTest(TestCase):
 
         self.assertEqual(Pedido.objects.count(), 0)
 
+    def test_nao_cria_pedido_com_quantidade_negativa(self):
+        with self.assertRaises(ValidationError):
+            criar_pedido(
+                cliente_dados={"nome": "Teste", "telefone": "11999990003"},
+                itens_carrinho=[{"produto": self.produto, "quantidade": -1}],
+            )
+
+        self.assertEqual(Pedido.objects.count(), 0)
+
 
 class CarrinhoServiceTest(TestCase):
     def setUp(self):
@@ -300,12 +328,12 @@ class CarrinhoServiceTest(TestCase):
         middleware = SessionMiddleware(lambda request: HttpResponse())
         middleware.process_request(self.request)
         self.request.session.save()
-        categoria = Categoria.objects.create(nome="Bebidas")
+        self.categoria = Categoria.objects.create(nome="Bebidas")
         self.produto = Produto.objects.create(
             nome="Suco",
             descricao="Suco natural",
             preco="8.00",
-            categoria=categoria,
+            categoria=self.categoria,
         )
 
     def test_adicionar_item_soma_quantidades(self):
@@ -348,6 +376,20 @@ class CarrinhoServiceTest(TestCase):
 
         self.assertEqual((itens, total), ([], 0))
 
+    def test_produto_de_categoria_inativa_nao_aparece_no_carrinho(self):
+        # NOTA: este teste só deve passar se `itens_do_carrinho` (ou o
+        # queryset de Produto usado por ele) já filtrar por
+        # `categoria__ativa=True`. Se essa regra ainda não foi
+        # implementada em carrinho.py, este teste vai falhar de
+        # propósito até a regra existir.
+        self.request.session["carrinho"] = {str(self.produto.pk): 1}
+        self.categoria.ativa = False
+        self.categoria.save()
+
+        itens, total = carrinho.itens_do_carrinho(self.request)
+
+        self.assertEqual((itens, total), ([], 0))
+
 
 class CadastroFormsTest(TestCase):
     def test_telefone_nao_pode_ser_duplicado(self):
@@ -365,3 +407,23 @@ class CadastroFormsTest(TestCase):
 
         self.assertFalse(form.is_valid())
         self.assertIn("telefone", form.errors)
+
+
+class ProdutoAdminTest(TestCase):
+    def setUp(self):
+        self.categoria = Categoria.objects.create(nome="Pratos")
+        self.produto = Produto.objects.create(
+            nome="Feijoada",
+            descricao="Teste",
+            preco=35.00,
+            categoria=self.categoria,
+            disponivel=False,
+        )
+        self.admin_user = User.objects.create_superuser(
+            username="admin", password=TEST_PASSWORD, email="admin@test.com"
+        )
+
+    def test_admin_lista_produto_indisponivel(self):
+        self.client.login(username="admin", password=TEST_PASSWORD)
+        response = self.client.get(reverse("admin:cardapio_produto_changelist"))
+        self.assertContains(response, "Feijoada")

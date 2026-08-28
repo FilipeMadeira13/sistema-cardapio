@@ -138,7 +138,9 @@ class ItemPedido(models.Model):
     def clean(self):
         if self.pk is None and self.produto and not self.produto.disponivel:
             raise ValidationError(
-                {"produto": f'"{self.produto.nome}" está indisponível no momento e não pode ser adicionado a um pedido.'}
+                {
+                    "produto": f'"{self.produto.nome}" está indisponível no momento e não pode ser adicionado a um pedido.'
+                }
             )
 
     def save(self, *args, **kwargs):

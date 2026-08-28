@@ -34,6 +34,7 @@ def itens_do_carrinho(request):
     produtos = Produto.objects.filter(
         id__in=carrinho.keys(),
         disponivel=True,
+        categoria__ativa=True,
     )
     itens = []
     total = 0

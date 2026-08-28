@@ -1,11 +1,11 @@
-from typing import Any
+from typing import cast
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.db import transaction
 
-from cardapio.models import Cliente
+from cardapio.models import Cliente, ItemPedido, Produto
 
 
 class CadastroForms(UserCreationForm):
@@ -37,3 +37,14 @@ class CadastroForms(UserCreationForm):
             )
 
         return user
+
+
+class ItemPedidoForm(forms.ModelForm):
+    class Meta:
+        model = ItemPedido
+        fields = ["produto", "quantidade"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        produto_field = cast(forms.ModelChoiceField, self.fields["produto"])
+        produto_field.queryset = Produto.objects.filter(disponivel=True)
