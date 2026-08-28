@@ -25,8 +25,6 @@ principalmente pelo **Django Admin**.
 
 ## 3. Regras de negócio
 
-[] Adicionar a opção de ver o carrinho na página de produtos.
-
 
 ### Pedido
 - [ ] O valor total do pedido é calculado automaticamente a partir da

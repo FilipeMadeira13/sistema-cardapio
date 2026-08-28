@@ -1,3 +1,5 @@
+
+Styles · CSS
 :root{
   --accent:#b33a3a;
   --accent-dark:#8c2e2e;
@@ -27,6 +29,32 @@ body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica
 .card{background:var(--card);padding:1rem;border-radius:var(--radius);box-shadow:0 6px 18px rgba(0,0,0,.06)}
 
 .menu-page h1{margin-top:1rem}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:1.5rem;
+}
+
+.btn-cart{
+  display:inline-flex;
+  align-items:center;
+  gap:.4rem;
+  white-space:nowrap;
+  padding:.5rem .85rem;
+  font-size:.9rem;
+}
+.btn-cart-icon{flex-shrink:0}
+.btn-cart:hover{background:var(--accent-dark)}
+
+/* Foco visível para navegação por teclado (todos os botões/links de ação) */
+.btn:focus-visible,
+.btn-secondary:focus-visible,
+.menu-toggle:focus-visible{
+  outline:3px solid #3a5a9a;
+  outline-offset:2px;
+}
+
 .category{margin:1.5rem 0}
 .products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
 .product{background:var(--card);padding:0.8rem;border-radius:10px;display:flex;gap:0.8rem;align-items:flex-start}
@@ -72,4 +100,11 @@ body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica
   .nav.open{display:flex;flex-direction:column;position:absolute;top:64px;right:16px;background:white;padding:1rem;border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,.08)}
   .menu-toggle{display:block}
   .header-inner{align-items:center}
+}
+
+@media(max-width:480px){
+  /* Mantém só o ícone visível; o texto "Ver Carrinho" continua disponível
+     para leitores de tela via aria-label no link. */
+  .btn-cart span{display:none}
+  .btn-cart{padding:.5rem .6rem}
 }
