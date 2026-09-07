@@ -29,7 +29,10 @@ DEBUG = True
 ALLOWED_HOSTS: list[str] = []
 
 
-# Application definition
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
