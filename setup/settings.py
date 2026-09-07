@@ -43,6 +43,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "cardapio.apps.CardapioConfig",
     "django_extensions",
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -53,6 +57,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "setup.urls"
@@ -142,4 +147,14 @@ MAILERS = {
     "default": {
         "BACKEND": "django.core.mail.backends.console.EmailBackend",
     },
+}
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': '123',
+            'secret': '456',
+            'key': ''
+        }
+    }
 }
