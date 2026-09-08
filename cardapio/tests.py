@@ -204,6 +204,36 @@ class FluxoCarrinhoCheckoutTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertTrue(response.url.startswith(reverse("login")))
 
+    def test_login_de_superusuario_redireciona_para_inicio(self):
+        User.objects.create_superuser(username="admin", password=TEST_PASSWORD)
+
+        response = self.client.post(
+            reverse("login"),
+            {"username": "admin", "password": TEST_PASSWORD},
+            follow=True,
+        )
+
+        self.assertEqual(response.redirect_chain[-1][0], reverse("index"))
+
+    def test_accounts_profile_redireciona_para_inicio(self):
+        response = self.client.get("/accounts/profile/", follow=True)
+
+        self.assertEqual(response.redirect_chain[-1][0], reverse("index"))
+
+    def test_logout_na_pagina_principal_usa_formulario_post(self):
+        user = User.objects.create_user(username="logoutuser", password=TEST_PASSWORD)
+        Cliente.objects.create(
+            usuario=user,
+            nome="Logout User",
+            telefone="11999990009",
+        )
+        self.client.login(username="logoutuser", password=TEST_PASSWORD)
+
+        response = self.client.get(reverse("index"))
+
+        self.assertContains(response, 'method="post"', html=False)
+        self.assertContains(response, f'action="{reverse("logout")}"')
+
     def test_checkout_falha_se_produto_ficou_indisponivel_apos_adicionar_ao_carrinho(
         self,
     ):
