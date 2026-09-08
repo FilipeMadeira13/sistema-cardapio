@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.db.models import Prefetch
@@ -56,11 +56,21 @@ def cadastro(request):
         form = CadastroForms(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
+            login(
+                request,
+                user,
+                backend="django.contrib.auth.backends.ModelBackend",
+            )
             return redirect("checkout")
     else:
         form = CadastroForms()
     return render(request, "cardapio/cadastro.html", {"form": form})
+
+
+def logout_view(request):
+    if request.method == "POST":
+        logout(request)
+    return redirect("index")
 
 
 @login_required

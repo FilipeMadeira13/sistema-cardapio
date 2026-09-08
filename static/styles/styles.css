@@ -12,8 +12,11 @@ body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica
 .site-header{background:linear-gradient(90deg, #fff, #fff);border-bottom:1px solid rgba(0,0,0,.05)}
 .header-inner{display:flex;align-items:center;justify-content:space-between;padding:1rem}
 .brand{font-family:'Libre Baskerville', serif;font-size:1.4rem;color:var(--accent);text-decoration:none}
-.nav{display:flex;gap:1rem}
+.nav{display:flex;gap:1rem;align-items:center}
 .nav a{color:#333;text-decoration:none;font-weight:600}
+.logout-form{margin:0}
+.logout-button{background:none;border:none;color:#333;font:inherit;font-weight:600;cursor:pointer;padding:0}
+.logout-button:hover{text-decoration:underline}
 .menu-toggle{display:none;background:none;border:0;font-size:1.4rem}
 
 .hero{background:linear-gradient(90deg, rgba(179,58,58,0.06), rgba(0,0,0,0.01));padding:3rem 0;border-radius:12px;margin:1rem 0}

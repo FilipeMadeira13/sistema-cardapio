@@ -94,6 +94,9 @@ DATABASES = {
 }
 
 LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "index"
+LOGOUT_REDIRECT_URL = "index"
+ACCOUNT_LOGOUT_REDIRECT_URL = "index"
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
